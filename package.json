@@ -1,0 +1,51 @@
+{
+  "name": "num-format-utils",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Utility library for formatting numbers and currencies",
+  "keywords": [
+    "format", 
+    "currency", 
+    "number", 
+    "typescript", 
+    "intl"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chimobi-justice/num-format-utils"
+  },
+  "author": "Justice Chimobi <chimobi.justice@gmail.com>",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:ui": "vitest --ui",
+    "prepare": "husky",
+    "commitlint": "commitlint --edit"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@types/node": "^24.0.13",
+    "@vitest/ui": "^3.2.4",
+    "husky": "^9.1.7",
+    "tsup": "^8.5.0",
+    "typescript": "~5.8.3",
+    "vite": "^7.0.4",
+    "vitest": "^3.2.4"
+  }
+}
