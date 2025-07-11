@@ -1,4 +1,4 @@
-import type { FormatPercentageProps } from "../types"
+import type { FormatPercentageProps } from "../types";
 import { normalizeNumber } from "./helpers";
 
 /**
@@ -25,8 +25,4 @@ export const formatPercentage = ({
 }: FormatPercentageProps): string => {
   const saferValue = normalizeNumber(value * 100);
   return `${saferValue.toFixed(fractionDigits)}%`;
-  // return `${(value * 100).toFixed(fractionDigits)}%`;
 };
-
-const percentage = formatPercentage({ value: 958 });
-console.log(percentage);

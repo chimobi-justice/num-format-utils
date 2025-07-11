@@ -1,7 +1,7 @@
-import type { 
+import type {
   FormatDecimalProps,
-  FormatNumberProps, 
-  SupportedLocale 
+  FormatNumberProps,
+  SupportedLocale,
 } from "../types";
 
 /**
@@ -24,14 +24,10 @@ import type {
  */
 export const formatNumber = <L extends SupportedLocale>({
   value,
-  locale = "en-US" as L
+  locale = "en-US" as L,
 }: FormatNumberProps<L>) => {
   return new Intl.NumberFormat(locale).format(value);
-}
-
-// const number = formatNumber({ value: 1000, locale: "en-NG" });
-// console.log(number);
-
+};
 
 /**
  * Formats a numeric value to a fixed number of decimal places.
@@ -53,12 +49,7 @@ export const formatNumber = <L extends SupportedLocale>({
  */
 export const formatDecimal = ({
   value,
-  decimals = 2
-}: FormatDecimalProps
-): string => {
-
-  return value.toFixed(decimals)
-}
-
-// const decimals = formatDecimal({ value: 1000 });
-// console.log(decimals);
+  decimals = 2,
+}: FormatDecimalProps): string => {
+  return value.toFixed(decimals);
+};

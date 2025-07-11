@@ -1,19 +1,18 @@
 {
   "name": "num-format-utils",
-  "private": true,
   "version": "1.0.0",
   "type": "module",
   "description": "Utility library for formatting numbers and currencies",
   "keywords": [
-    "format", 
-    "currency", 
-    "number", 
-    "typescript", 
+    "format",
+    "currency",
+    "number",
+    "typescript",
     "intl"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chimobi-justice/num-format-utils"
+    "url": "git+https://github.com/chimobi-justice/num-format-utils.git"
   },
   "author": "Justice Chimobi <chimobi.justice@gmail.com>",
   "license": "MIT",
@@ -43,9 +42,14 @@
     "@types/node": "^24.0.13",
     "@vitest/ui": "^3.2.4",
     "husky": "^9.1.7",
+    "lint-staged": "^16.1.2",
+    "prettier": "^3.6.2",
     "tsup": "^8.5.0",
     "typescript": "~5.8.3",
     "vite": "^7.0.4",
     "vitest": "^3.2.4"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
   }
 }

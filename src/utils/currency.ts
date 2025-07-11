@@ -1,12 +1,9 @@
 import type {
   FormatCurrencyProps,
   SupportedCurrency,
-  SupportedLocale
+  SupportedLocale,
 } from "../types";
-import {
-  formatWithIntl,
-  normalizeNumber
-} from "../utils/helpers";
+import { formatWithIntl, normalizeNumber } from "../utils/helpers";
 
 /**
  * Formats a single number as currency using the Intl.NumberFormat API.
@@ -26,7 +23,7 @@ import {
  *
  * @example
  * ```ts
- * formatCurrency({ value: 1500 }); 
+ * formatCurrency({ value: 1500 });
  * // "$1,500.00"
  *
  * formatCurrency({ value: 1299.99, currency: "EUR", locale: "de-DE" });
@@ -34,34 +31,24 @@ import {
  * ```
  */
 export const formatCurrency = <
-  C extends SupportedCurrency, 
-  L extends SupportedLocale
->({ 
+  C extends SupportedCurrency,
+  L extends SupportedLocale,
+>({
   value,
   currency = "USD" as C,
-  locale = "en-US" as L
+  locale = "en-US" as L,
 }: FormatCurrencyProps<C, L>): string => {
   const saferValue = normalizeNumber(value);
-  
+
   return formatWithIntl({
     value: saferValue,
     options: {
       style: "currency",
       currency,
     },
-    locale
+    locale,
   });
-
-  // return new Intl.NumberFormat(locale, {
-  //   style: "currency",
-  //   currency
-  // }).format(value)
 };
-
-const format2 = formatCurrency({ value: 6200, currency: "NGN", locale: "en-NG" });
-const format3 = formatCurrency({ value: 200, currency: "GBP", locale: "en-GB" })
-
-console.log(format2, format3);
 
 /**
  * Creates a reusable currency formatter function using the Intl.NumberFormat API.
@@ -88,18 +75,15 @@ console.log(format2, format3);
  */
 export const createCurrencyFormatter = <
   C extends SupportedCurrency = "USD",
-  L extends SupportedLocale = "en-US"
+  L extends SupportedLocale = "en-US",
 >(
   currency: C,
   locale: L
 ) => {
   const formatter = new Intl.NumberFormat(locale, {
     style: "currency",
-    currency
-  })
+    currency,
+  });
 
-  return (value: number) => formatter.format(value)
-}
-
-// const formatUsd = createCurrencyFormatter("NGN", "en-NG");
-// console.log(formatUsd(300));
+  return (value: number) => formatter.format(value);
+};
