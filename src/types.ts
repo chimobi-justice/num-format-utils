@@ -1,3 +1,5 @@
+import type { CompactProps, StandardProps } from "./utils/formatCompactNumber";
+
 export type SupportedCurrency =
   | "USD"
   | "NGN"
@@ -19,9 +21,9 @@ export type SupportedLocale =
   | "hi-IN";
 
 export interface FormatCurrencyProps<
-  C extends SupportedCurrency = "USD", 
-  L extends SupportedLocale = "en-US"
-  > {
+  C extends SupportedCurrency = "USD",
+  L extends SupportedLocale = "en-US",
+> {
   value: number;
   currency?: C;
   locale?: L;
@@ -29,7 +31,7 @@ export interface FormatCurrencyProps<
 
 export interface FormatNumberProps<L extends SupportedLocale> {
   value: number;
-  locale?: L
+  locale?: L;
 }
 
 export interface FormatPercentageProps {
@@ -40,4 +42,7 @@ export interface FormatPercentageProps {
 export interface FormatDecimalProps {
   value: number;
   decimals?: number;
+  locale?: SupportedLocale;
 }
+
+export type FormatCompactProps = CompactProps | StandardProps;

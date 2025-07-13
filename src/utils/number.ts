@@ -3,6 +3,7 @@ import type {
   FormatNumberProps,
   SupportedLocale,
 } from "../types";
+import { formatWithIntl } from "./helpers";
 
 /**
  * Formats a numeric value using locale-specific digit grouping and decimal separators.
@@ -19,14 +20,14 @@ import type {
  * @example
  * ```ts
  * formatNumber({ value: 1000000 }); // "1,000,000" (in "en-US")
- * formatNumber({ value: 1000000, locale: "de-DE" }); // "1.000.000"
+ * formatNumber({ value: 1000000, locale: "en-NG" }); // "1.000.000"
  * ```
  */
 export const formatNumber = <L extends SupportedLocale>({
   value,
   locale = "en-US" as L,
 }: FormatNumberProps<L>) => {
-  return new Intl.NumberFormat(locale).format(value);
+  return formatWithIntl({ value, locale });
 };
 
 /**
@@ -37,19 +38,29 @@ export const formatNumber = <L extends SupportedLocale>({
  *
  * @param value - The numeric value to format (e.g. `1000` becomes `"1000.00"`).
  * @param decimals - Optional. The number of decimal places to keep. Defaults to `2`.
+ * @param locale - Optional locale string. Defaults to `"en-US"`.
  *
  * @returns A string representing the number with the specified fixed decimals.
  *
  * @example
  * ```ts
  * formatDecimal({ value: 123.456 }); // "123.46"
- * formatDecimal({ value: 123.4, decimals: 3 }); // "123.400"
- * formatDecimal({ value: 1000 }); // "1000.00"
+ * formatDecimal({ value: 123456, decimals: 2 }); // "123,456.00"
+ * formatDecimal({ value: 1000, locale: "en-NG"  }); // "1000.00"
  * ```
  */
 export const formatDecimal = ({
   value,
   decimals = 2,
+  locale = "en-US",
 }: FormatDecimalProps): string => {
-  return value.toFixed(decimals);
+  return formatWithIntl({
+    value,
+    options: {
+      style: "decimal",
+      maximumFractionDigits: decimals,
+      minimumFractionDigits: decimals,
+    },
+    locale,
+  });
 };
