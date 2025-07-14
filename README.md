@@ -1,6 +1,6 @@
 # 📊 num-format-utils
 
-A lightweight utility library for formatting numbers, currencies, percentages, and decimals — with full TypeScript support and locale-aware formatting via the `Intl` API.
+A lightweight utility library for formatting numbers, currencies, percentages, decimals and more — with full TypeScript support and locale-aware formatting via the `Intl` API.
 
 > ✅ Ideal for dashboards, finance apps, and data display
 
@@ -36,6 +36,7 @@ import {
   formatNumber,
   formatPercentage,
   formatCompactNumber,
+  formatUnit,
 } from 'num-format-utils';
 ```
 
@@ -119,11 +120,25 @@ formatPercentage({ value: 0.1, fractionDigits: 0 }); // "10%"
 
 ```bash
 formatCompactNumber({
-  value: number, // e.g. 0.65
-  fractionDigits?: number // default: 2
-}): string
+  value: number, // 6500
+  locale: string, // default: en-NG
+  notation: string, // default: "compact",  "compact" | "standard",
+  compactDisplay: string, // default: "short",  "short" | "long" -> only availabel when notation is - compact
+}): string;
+```
 
-formatCompactNumber({
+## Example:
+
+```bash
+formatCompactNumber({ value: 1000 }); // 1K
+formatCompactNumber({ value: 1000, notation "standard" }); // "1,000"
+formatCompactNumber({ value: 6500, locale: "en-NG", compactDisplay: "long" });  "6.5 thousand"
+```
+
+## 🔹 formatUnit
+
+```bash
+formatUnit({
   value: number, // 6500
   locale: string // en-NG
   notation: string,  "compact" | "standard",
@@ -134,9 +149,10 @@ formatCompactNumber({
 ## Example:
 
 ```bash
-formatCompactNumber({ value: 1000 }); // 1K
-formatCompactNumber({ value: 1000, notation "standard" }); // "1,000"
-formatCompactNumber({ value: 6500, locale: "en-NG", compactDisplay: "long" });  "6.5 thousand"
+ formatUnit({ value: 150 }); by default if no other options are pass // "150 kg"
+ formatUnit({ value: 12, unit: "minute", unitDisplay: "short" }); // "12 min"
+ formatUnit({ value: 10, unit: "year", unitDisplay: "short" }); // "12 yrs"
+ formatUnit({ value: 120, unit: "kilobyte", unitDisplay: "short" }); // "120 kB"
 ```
 
 ## ✅ TypeScript Support
@@ -177,7 +193,7 @@ Custom types (FormatCurrencyProps, SupportedLocale, etc.) exposed
 
 This project was developed and maintained by:
 
-- [Justice Chimobi](https://github.com/chimobi-justice)
+- [Justice Chimobi](https://justice-chimobi.vercel.app/)
 
 Special thanks to all contributors and community members who have helped improve this library.
 

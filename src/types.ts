@@ -20,6 +20,53 @@ export type SupportedLocale =
   | "zh-CN"
   | "hi-IN";
 
+export type SupportedUnit =
+  | "acre"
+  | "bit"
+  | "byte"
+  | "celsius"
+  | "centimeter"
+  | "day"
+  | "degree"
+  | "fahrenheit"
+  | "fluid-ounce"
+  | "foot"
+  | "gallon"
+  | "gigabit"
+  | "gigabyte"
+  | "gram"
+  | "hectare"
+  | "hour"
+  | "inch"
+  | "kilobit"
+  | "kilobyte"
+  | "kilogram"
+  | "kilometer"
+  | "liter"
+  | "megabit"
+  | "megabyte"
+  | "meter"
+  | "mile"
+  | "mile-scandinavian"
+  | "milliliter"
+  | "millimeter"
+  | "millisecond"
+  | "minute"
+  | "month"
+  | "ounce"
+  | "percent"
+  | "petabyte"
+  | "pound"
+  | "second"
+  | "stone"
+  | "terabit"
+  | "terabyte"
+  | "week"
+  | "yard"
+  | "year";
+
+export type UnitDisplay = "short" | "long" | "narrow";
+
 export interface FormatCurrencyProps<
   C extends SupportedCurrency = "USD",
   L extends SupportedLocale = "en-US",
