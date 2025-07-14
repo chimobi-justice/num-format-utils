@@ -14,15 +14,16 @@ import { normalizeNumber } from "./helpers";
  *
  * @example
  * ```ts
- * formatPercentage({ value: 0.65 });          // "65.00%"
- * formatPercentage({ value: 0.1234 });        // "12.34%"
+ * formatPercentage({ value: 0.65 }); // "65%"
+ * formatPercentage({ value: 0.1234, fractionDigits: 2 }); // "12.34%"
  * formatPercentage({ value: 0.1234, fractionDigits: 4 }); // "12.3400%"
  * ```
  */
 export const formatPercentage = ({
   value,
-  fractionDigits = 2,
+  fractionDigits = 0,
 }: FormatPercentageProps): string => {
-  const saferValue = normalizeNumber(value * 100);
+  const saferValue = normalizeNumber(value) * 100;
+
   return `${saferValue.toFixed(fractionDigits)}%`;
 };
