@@ -1,9 +1,14 @@
 import type {
   FormatCurrencyProps,
+  StrictLocaleCurrencyPair,
   SupportedCurrency,
   SupportedLocale,
 } from "../types";
-import { formatWithIntl, normalizeNumber } from "../utils/helpers";
+import {
+  ensureNumberOrString,
+  formatWithIntl,
+  normalizeNumber,
+} from "../utils/helpers";
 
 /**
  * Formats a single number as currency using the Intl.NumberFormat API.
@@ -51,6 +56,51 @@ export const formatCurrency = <
 };
 
 /**
+ * Strictly formats a single number as currency using the Intl.NumberFormat API,
+ * requiring a valid locale–currency pair.
+ *
+ * This is a stricter alternative to `formatCurrency` where the `locale` and `currency`
+ * must be explicitly matched as a valid pair defined in `StrictLocaleCurrencyPair`.
+ *
+ * Unlike `formatCurrency`, this function does not fall back to defaults and
+ * ensures only correct combinations (e.g., "de-DE" + "EUR") are passed.
+ *
+ * @param params - An object containing:
+ *   - `value`: The numeric value to format.
+ *   - `locale`: A strict BCP 47 locale string (e.g. "ja-JP") from a valid pair.
+ *   - `currency`: A strict ISO 4217 currency code (e.g. "JPY") from a valid pair.
+ *
+ * @returns A string representing the formatted currency (e.g. "¥1,500").
+ *
+ * @example
+ * ```ts
+ * formatCurrencyLockedPair({ value: 1500, locale: "ja-JP", currency: "JPY" });
+ * // "￥1,500"
+ *
+ * formatCurrencyLockedPair({ value: 1000, locale: "en-GB", currency: "GBP" });
+ * // "£1,000.00"
+ * ```
+ */
+export const formatCurrencyMatch = ({
+  value,
+  currency,
+  locale,
+}: {
+  value: number | string;
+} & StrictLocaleCurrencyPair): string => {
+  const saferValue = normalizeNumber(value);
+
+  return formatWithIntl({
+    value: saferValue,
+    options: {
+      style: "currency",
+      currency,
+    },
+    locale,
+  });
+};
+
+/**
  * Creates a reusable currency formatter function using the Intl.NumberFormat API.
  *
  * Useful for formatting multiple values with the same currency and locale
@@ -85,5 +135,12 @@ export const createCurrencyFormatter = <
     currency,
   });
 
-  return (value: number) => formatter.format(value);
+  return (value: number | string) => {
+    const numericValue = Number(value);
+
+    // Checks if the provided value is a valid number or numeric string.
+    ensureNumberOrString(numericValue, "createCurrencyFormatter");
+
+    return formatter.format(Number(numericValue));
+  };
 };
