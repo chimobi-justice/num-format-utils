@@ -197,6 +197,10 @@ This project was developed and maintained by:
 
 Special thanks to all contributors and community members who have helped improve this library.
 
+<a href="https://buymeacoffee.com/chimobijusi" target="_blank">
+  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me a Coffee" style="height: 60px;"/>
+</a>
+
 ---
 
 ## 📝 License

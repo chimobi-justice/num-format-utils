@@ -1,24 +1,69 @@
 import type { CompactProps, StandardProps } from "./utils/formatCompactNumber";
 
 export type SupportedCurrency =
-  | "USD"
-  | "NGN"
-  | "EUR"
-  | "GBP"
-  | "JPY"
-  | "CAD"
-  | "CNY"
-  | "INR";
+  | "USD" // US Dollar
+  | "NGN" // Nigerian Naira
+  | "EUR" // Euro
+  | "GBP" // British Pound
+  | "JPY" // Japanese Yen
+  | "CAD" // Canadian Dollar
+  | "CNY" // Chinese Yuan
+  | "INR" // Indian Rupee
+  | "AUD" // Australian Dollar
+  | "BRL" // Brazilian Real
+  | "ZAR" // South African Rand
+  | "CHF" // Swiss Franc
+  | "SEK" // Swedish Krona
+  | "MXN" // Mexican Peso
+  | "KRW" // South Korean Won
+  | "RUB" // Russian Ruble
+  | "AED" // UAE Dirham
+  | "SAR" // Saudi Riyal
+  | "EGP"; // Egyptian Pound
 
 export type SupportedLocale =
-  | "en-US"
-  | "en-GB"
-  | "en-NG"
-  | "fr-FR"
-  | "ja-JP"
-  | "en_CA"
-  | "zh-CN"
-  | "hi-IN";
+  | "en-US" // United States
+  | "en-GB" // United Kingdom
+  | "en-NG" // Nigeria
+  | "fr-FR" // France
+  | "ja-JP" // Japan
+  | "en-CA" // Canada
+  | "zh-CN" // China
+  | "hi-IN" // India
+  | "en-AU" // Australia
+  | "pt-BR" // Brazil
+  | "es-MX" // Mexico
+  | "de-DE" // Germany
+  | "it-IT" // Italy
+  | "ru-RU" // Russia
+  | "ko-KR" // South Korea
+  | "ar-AE" // United Arab Emirates
+  | "ar-SA" // Saudi Arabia
+  | "en-ZA" // South Africa
+  | "es-ES" // Spain
+  | "nl-NL"; // Netherlands
+
+export type StrictLocaleCurrencyPair =
+  | { locale: "en-US"; currency: "USD" }
+  | { locale: "en-GB"; currency: "GBP" }
+  | { locale: "en-NG"; currency: "NGN" }
+  | { locale: "fr-FR"; currency: "EUR" }
+  | { locale: "ja-JP"; currency: "JPY" }
+  | { locale: "en-CA"; currency: "CAD" }
+  | { locale: "zh-CN"; currency: "CNY" }
+  | { locale: "hi-IN"; currency: "INR" }
+  | { locale: "en-AU"; currency: "AUD" }
+  | { locale: "pt-BR"; currency: "BRL" }
+  | { locale: "es-MX"; currency: "MXN" }
+  | { locale: "de-DE"; currency: "EUR" }
+  | { locale: "it-IT"; currency: "EUR" }
+  | { locale: "ru-RU"; currency: "RUB" }
+  | { locale: "ko-KR"; currency: "KRW" }
+  | { locale: "ar-AE"; currency: "AED" }
+  | { locale: "ar-SA"; currency: "SAR" }
+  | { locale: "en-ZA"; currency: "ZAR" }
+  | { locale: "es-ES"; currency: "EUR" }
+  | { locale: "nl-NL"; currency: "EUR" };
 
 export type SupportedUnit =
   | "acre"
@@ -71,23 +116,23 @@ export interface FormatCurrencyProps<
   C extends SupportedCurrency = "USD",
   L extends SupportedLocale = "en-US",
 > {
-  value: number;
+  value: number | string;
   currency?: C;
   locale?: L;
 }
 
 export interface FormatNumberProps<L extends SupportedLocale> {
-  value: number;
+  value: number | string;
   locale?: L;
 }
 
 export interface FormatPercentageProps {
-  value: number;
+  value: number | string;
   fractionDigits?: number;
 }
 
 export interface FormatDecimalProps {
-  value: number;
+  value: number | string;
   decimals?: number;
   locale?: SupportedLocale;
 }

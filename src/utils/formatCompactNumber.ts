@@ -3,7 +3,7 @@ import type {
   FormatNumberProps,
   SupportedLocale,
 } from "../types";
-import { formatWithIntl } from "./helpers";
+import { ensureNumberOrString, formatWithIntl } from "./helpers";
 
 interface BaseProps extends FormatNumberProps<SupportedLocale> {}
 
@@ -77,6 +77,9 @@ export const formatCompactNumber = ({
   ) {
     options.compactDisplay = rest.compactDisplay;
   }
+
+  // Checks if the provided value is a valid number or numeric string.
+  ensureNumberOrString(Number(value), "formatCompactNumber");
 
   return formatWithIntl({ value, options, locale });
 };
