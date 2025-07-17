@@ -1,28 +1,77 @@
-import type {
-  FormatCurrencyProps,
-  StrictLocaleCurrencyPair,
-  SupportedCurrency,
-  SupportedLocale,
-} from "../types";
+import type { SupportedCurrency, SupportedLocale } from "../types";
 import {
   ensureNumberOrString,
   formatWithIntl,
   normalizeNumber,
 } from "../utils/helpers";
 
+export const localeCurrencyPairs = {
+  "en-US": ["USD"],
+  "en-GB": ["GBP"],
+  "en-NG": ["NGN"],
+  "fr-FR": ["EUR"],
+  "ja-JP": ["JPY"],
+  "en-CA": ["CAD"],
+  "zh-CN": ["CNY"],
+  "hi-IN": ["INR"],
+  "en-AU": ["AUD"],
+  "pt-BR": ["BRL"],
+  "es-MX": ["MXN"],
+  "de-DE": ["EUR", "CHF"], // Example if multiple currencies per locale
+  "it-IT": ["EUR"],
+  "ru-RU": ["RUB"],
+  "ko-KR": ["KRW"],
+  "ar-AE": ["AED"],
+  "ar-SA": ["SAR"],
+  "en-ZA": ["ZAR"],
+  "es-ES": ["EUR"],
+  "nl-NL": ["EUR"],
+} as const;
+
+type LocaleCurrencyMap = typeof localeCurrencyPairs;
+
+type GetLocale = keyof LocaleCurrencyMap;
+
+export type FormatCurrencyStrictProps<L extends keyof LocaleCurrencyMap> = {
+  value: number | string;
+  locale: L;
+  currency: LocaleCurrencyMap[L][number];
+};
+
+export type FormatCurrencyProps<L extends GetLocale = "en-US"> =
+  | { value: number | string }
+  | { value: number | string; locale: L }
+  | {
+      value: number | string;
+      locale: L;
+      currency: LocaleCurrencyMap[L][number];
+    };
+
+export interface CurrencyDisplayTypes {
+  currencyDisplay?: "code" | "name" | "symbol" | "narrowSymbol";
+}
+
 /**
  * Formats a single number as currency using the Intl.NumberFormat API.
  *
- * Unlike `createCurrencyFormatter`, this is a one-time formatter for individual values.
- * Automatically defaults to `"USD"` and `"en-US"` if currency or locale is not provided.
+ * - If only `value` is provided, defaults to `"USD"` and `"en-US"`.
+ * - If `locale` is provided without `currency`, uses the locale's default currency.
+ * - If both `locale` and `currency` are provided, uses them directly **only if** the pair is valid.
  *
- * @template C - The ISO 4217 currency code (e.g. "USD", "NGN"). Defaults to "USD".
- * @template L - The BCP 47 locale string (e.g. "en-US", "fr-FR"). Defaults to "en-US".
+ * ❗ If an invalid locale–currency combination is passed, the function will fallback to the default currency for that locale.
+ * ❗ If `currency` is passed without `locale`, TypeScript will show a type error.
  *
- * @param params - An object containing:
- * @param value - The numeric value to format.
- * @param currency - Optional currency code. Defaults to `"USD"`.
- * @param locale - Optional locale string. Defaults to `"en-US"`.
+ *  @template To change the currency signs
+ *  e.g (₦787.00 -> "narrowSymbol" by default, NGN 787.00 -> "code", 787.00 Nigerian nairas -> "name" or  NGN 787.00 -> "symbol")
+ *  @template To change the currency signs, simply pass the parameter "currencyDisplay" with any the of following values "narrowSymbol" | "code" | "name" | "symbol"
+ *
+ * @template L - A supported BCP 47 locale string (e.g. "en-US", "fr-FR"). Defaults to "en-US".
+ *
+ * @param props - An object containing:
+ *   - `value`: The numeric value to format.
+ *   - `locale` (optional): The desired locale for formatting.
+ *   - `currency` (optional): A valid ISO 4217 currency for the specified locale.
+ *   - `currencyDisplay` (optional): To change the currency display style.
  *
  * @returns A string representing the formatted currency (e.g. "$1,500.00").
  *
@@ -31,25 +80,41 @@ import {
  * formatCurrency({ value: 1500 });
  * // "$1,500.00"
  *
- * formatCurrency({ value: 1299.99, currency: "EUR", locale: "de-DE" });
- * // "1.299,99 €"
+ * formatCurrency({ value: 2000, locale: "en-NG" });
+ * // "₦2,000.00"
+ *
+ * formatCurrency({ value: 1000, locale: "fr-FR", currency: "EUR" });
+ * // "1 000,00 €"
  * ```
  */
-export const formatCurrency = <
-  C extends SupportedCurrency,
-  L extends SupportedLocale,
->({
-  value,
-  currency = "USD" as C,
-  locale = "en-US" as L,
-}: FormatCurrencyProps<C, L>): string => {
-  const saferValue = normalizeNumber(value);
+export const formatCurrency = <L extends GetLocale>(
+  props: FormatCurrencyProps<L> & CurrencyDisplayTypes
+): string => {
+  const value = normalizeNumber(props.value);
+
+  if (!("locale" in props)) {
+    return formatWithIntl({
+      value,
+      options: {
+        style: "currency",
+        currency: "USD",
+        currencyDisplay: props.currencyDisplay ?? "symbol",
+        useGrouping: true,
+      },
+      locale: "en-US",
+    });
+  }
+
+  const locale = props.locale;
+  const currencies = localeCurrencyPairs[locale];
+  const currency = "currency" in props ? props.currency : currencies[0];
 
   return formatWithIntl({
-    value: saferValue,
+    value,
     options: {
       style: "currency",
       currency,
+      currencyDisplay: props.currencyDisplay ?? "symbol",
     },
     locale,
   });
@@ -57,44 +122,50 @@ export const formatCurrency = <
 
 /**
  * Strictly formats a single number as currency using the Intl.NumberFormat API,
- * requiring a valid locale–currency pair.
+ * requiring an exact `locale`–`currency` match.
  *
- * This is a stricter alternative to `formatCurrency` where the `locale` and `currency`
- * must be explicitly matched as a valid pair defined in `StrictLocaleCurrencyPair`.
+ * This function is stricter than `formatCurrency`:
+ * - All three parameters — `value`, `locale`, and `currency` — are required except currencyDisplay which is optional.
+ * - The `currency` must match the allowed list for the given `locale`.
+ * - No fallbacks or guesses are made. If an invalid pair is passed, TypeScript will throw an error.
  *
- * Unlike `formatCurrency`, this function does not fall back to defaults and
- * ensures only correct combinations (e.g., "de-DE" + "EUR") are passed.
+ * Useful when strict control over formatting is needed — e.g., in finance or compliance-based apps.
  *
- * @param params - An object containing:
- *   - `value`: The numeric value to format.
- *   - `locale`: A strict BCP 47 locale string (e.g. "ja-JP") from a valid pair.
- *   - `currency`: A strict ISO 4217 currency code (e.g. "JPY") from a valid pair.
+ * @template To change the currency signs
+ * e.g (₦787.00 -> "narrowSymbol" by default, NGN 787.00 -> "code", 787.00 Nigerian nairas -> "name" or  NGN 787.00 -> "symbol")
+ * @template To change the currency signs, simply pass the parameter "currencyDisplay" with any the of following values "narrowSymbol" | "code" | "name" | "symbol"
  *
- * @returns A string representing the formatted currency (e.g. "¥1,500").
+ * @template L - A supported BCP 47 locale string (e.g. "de-DE", "ja-JP").
+ *
+ * @param props - An object containing:
+ *   - `value`: The number or string to format.
+ *   - `locale`: A locale key from `localeCurrencyPairs`.
+ *   - `currency`: A valid currency for the given locale.
+ *   - `currencyDisplay` (optional): To change the currency display style.
+ *
+ * @returns A string representing the formatted currency.
  *
  * @example
  * ```ts
- * formatCurrencyLockedPair({ value: 1500, locale: "ja-JP", currency: "JPY" });
- * // "￥1,500"
+ * formatCurrencyMatch({ value: 5000, locale: "ja-JP", currency: "JPY" });
+ * // "￥5,000"
  *
- * formatCurrencyLockedPair({ value: 1000, locale: "en-GB", currency: "GBP" });
+ * formatCurrencyMatch({ value: 1000, locale: "en-GB", currency: "GBP" });
  * // "£1,000.00"
  * ```
  */
-export const formatCurrencyMatch = ({
+export const formatCurrencyMatch = <L extends keyof LocaleCurrencyMap>({
   value,
   currency,
   locale,
-}: {
-  value: number | string;
-} & StrictLocaleCurrencyPair): string => {
-  const saferValue = normalizeNumber(value);
-
+  currencyDisplay,
+}: FormatCurrencyStrictProps<L> & CurrencyDisplayTypes): string => {
   return formatWithIntl({
-    value: saferValue,
+    value: normalizeNumber(value),
     options: {
       style: "currency",
       currency,
+      currencyDisplay: currencyDisplay ?? "symbol",
     },
     locale,
   });

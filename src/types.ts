@@ -43,28 +43,6 @@ export type SupportedLocale =
   | "es-ES" // Spain
   | "nl-NL"; // Netherlands
 
-export type StrictLocaleCurrencyPair =
-  | { locale: "en-US"; currency: "USD" }
-  | { locale: "en-GB"; currency: "GBP" }
-  | { locale: "en-NG"; currency: "NGN" }
-  | { locale: "fr-FR"; currency: "EUR" }
-  | { locale: "ja-JP"; currency: "JPY" }
-  | { locale: "en-CA"; currency: "CAD" }
-  | { locale: "zh-CN"; currency: "CNY" }
-  | { locale: "hi-IN"; currency: "INR" }
-  | { locale: "en-AU"; currency: "AUD" }
-  | { locale: "pt-BR"; currency: "BRL" }
-  | { locale: "es-MX"; currency: "MXN" }
-  | { locale: "de-DE"; currency: "EUR" }
-  | { locale: "it-IT"; currency: "EUR" }
-  | { locale: "ru-RU"; currency: "RUB" }
-  | { locale: "ko-KR"; currency: "KRW" }
-  | { locale: "ar-AE"; currency: "AED" }
-  | { locale: "ar-SA"; currency: "SAR" }
-  | { locale: "en-ZA"; currency: "ZAR" }
-  | { locale: "es-ES"; currency: "EUR" }
-  | { locale: "nl-NL"; currency: "EUR" };
-
 export type SupportedUnit =
   | "acre"
   | "bit"
@@ -111,15 +89,6 @@ export type SupportedUnit =
   | "year";
 
 export type UnitDisplay = "short" | "long" | "narrow";
-
-export interface FormatCurrencyProps<
-  C extends SupportedCurrency = "USD",
-  L extends SupportedLocale = "en-US",
-> {
-  value: number | string;
-  currency?: C;
-  locale?: L;
-}
 
 export interface FormatNumberProps<L extends SupportedLocale> {
   value: number | string;

@@ -1,4 +1,4 @@
-import { FormatNumberProps, SupportedLocale } from "../types";
+import type { FormatNumberProps, SupportedLocale } from "../types";
 
 export interface FormatWithIntlProps
   extends FormatNumberProps<SupportedLocale> {

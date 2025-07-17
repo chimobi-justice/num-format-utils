@@ -6,11 +6,23 @@ A lightweight utility library for formatting numbers, currencies, percentages, d
 
 ## 🚀 Installation
 
+[![npm version](https://img.shields.io/npm/v/num-format-utils.svg)](https://www.npmjs.com/package/num-format-utils)
+[![npm downloads](https://img.shields.io/npm/dt/num-format-utils.svg)](https://www.npmjs.com/package/num-format-utils)
+
+[View all versions on npm](https://www.npmjs.com/package/num-format-utils?activeTab=versions)
+
+````bash
+npm install num-format-utils
+# or
+yarn add num-format-utils
+
+## 🚀 Installation
+
 ```bash
 npm install num-format-utils
 # or
 yarn add num-format-utils
-```
+````
 
 ## ✨ Features
 
@@ -31,6 +43,7 @@ yarn add num-format-utils
 ```bash
 import {
   formatCurrency,
+  formatCurrencyMatch
   createCurrencyFormatter,
   formatDecimal,
   formatNumber,
@@ -44,11 +57,29 @@ import {
 
 ### 🔹 formatCurrency
 
+Formats a single number as currency using the Intl.NumberFormat API.
+
+- If only `value` is provided, defaults to `"USD"` and `"en-US"`.
+- If `locale` is provided without `currency`, uses the locale's default currency.
+- If both `locale` and `currency` are provided, uses them directly **only if** the pair is valid.
+- currencyDisplay which is optional
+
+❗ If an invalid locale–currency combination is passed, the function will fallback to the default currency for that locale.
+
+❗ If `currency` is passed without `locale`, TypeScript will show a type error.
+
+To change the currency signs
+
+e.g (₦787.00 -> "narrowSymbol" by default, NGN 787.00 -> "code", 787.00 Nigerian nairas -> "name" or NGN 787.00 -> "symbol")
+
+Simply pass the parameter "currencyDisplay" with any the of following values "narrowSymbol" | "code" | "name" | "symbol"
+
 ```bash
 formatCurrency({
   value: number,
   currency?: string, // default: "USD"
   locale?: string    // default: "en-US"
+  currencyDisplay?: string // "narrowSymbol" | "code" | "name" | "symbol"
 }): string
 ```
 
@@ -57,11 +88,51 @@ formatCurrency({
 ```bash
 formatCurrency({ value: 3000 }); // "$3,000.00"
 formatCurrency({ value: 3000, currency: "NGN", locale: "en-NG" }); // "₦3,000.00"
+formatCurrency({ value: 3000, currency: "USD", locale: "en-US", currencyDisplay: "name" }); // "3,000.00 US dollars"
+```
+
+### 🔹 formatCurrencyMatch
+
+Strictly formats a single number as currency using the Intl.NumberFormat API,
+requiring an exact `locale`–`currency` match.
+
+This function is stricter than `formatCurrency`:
+
+- All three parameters — `value`, `locale`, and `currency` — are required except currencyDisplay which is optional.
+- The `currency` must match the allowed list for the given `locale`.
+- No fallbacks or guesses are made. If an invalid pair is passed, TypeScript will throw an error.
+
+Useful when strict control over formatting is needed — e.g., in finance or compliance-based apps.
+
+To change the currency signs.
+
+e.g (₦787.00 -> "narrowSymbol" by default, NGN 787.00 -> "code", 787.00 Nigerian nairas -> "name" or NGN 787.00 -> "symbol")
+
+Simply pass the parameter "currencyDisplay" with any the of following values "narrowSymbol" | "code" | "name" | "symbol"
+
+```bash
+formatCurrencyMatch({
+  value: number,
+  currency?: string, // default: "USD"
+  locale?: string    // default: "en-US"
+  currencyDisplay?: string // "narrowSymbol" | "code" | "name" | "symbol"
+}): string
+```
+
+## Example:
+
+```bash
+formatCurrencyMatch({ value: 3000 }); // "$3,000.00"
+formatCurrencyMatch({ value: 3000, locale: "en-NG", currency: "NGN", }); // "₦3,000.00"
+formatCurrencyMatch({ value: 3000, locale: "en-US", currency: "NGN", currencyDisplay: "name" }); // "3,000.00 US dollars"
 ```
 
 ### 🔹 createCurrencyFormatter
 
 Create a reusable formatter instance for performance.
+
+- Useful for formatting multiple values with the same currency and locale
+- without creating a new formatter each time.
 
 ```bash
 const ngnFormatter = createCurrencyFormatter("NGN", "en-NG");
@@ -69,6 +140,10 @@ ngnFormatter(45000); // "₦45,000.00"
 ```
 
 ### 🔹 formatDecimal
+
+Formats a numeric value to a fixed number of decimal places.
+
+- This function is useful when you want strict control over how many decimals are shown, regardless of locale formatting.
 
 ```bash
 formatDecimal({
@@ -86,6 +161,10 @@ formatDecimal({ value: 1000, decimals: 3 }); // "1000.000"
 
 ### 🔹 formatNumber
 
+Formats a numeric value using locale-specific digit grouping and decimal separators.
+
+- Useful for general number formatting without currency or percentage styling.
+
 ```bash
 formatNumber({
   value: number,
@@ -102,6 +181,10 @@ formatNumber({ value: 1000000, locale: "de-DE" }); // "1.000.000"
 
 ## 🔹 formatPercentage
 
+Formats a numeric value as a percentage string.
+
+- Multiplies the input value by 100 and appends a `%` sign, with optional control over the number of decimal places.
+
 ```bash
 formatPercentage({
   value: number, // e.g. 0.65
@@ -117,6 +200,11 @@ formatPercentage({ value: 0.1, fractionDigits: 0 }); // "10%"
 ```
 
 ## 🔹 formatCompactNumber
+
+Formats a number using the `Intl.NumberFormat` API with either "compact" or "standard" notation.
+
+- `"compact"` Formats numbers using abbreviations (e.g. 1K, 2.3M, 6.5 thousand).
+- `"standard"` Formats numbers using regular locale-specific formatting (e.g., 1,000, 1,650,000).
 
 ```bash
 formatCompactNumber({
@@ -136,6 +224,8 @@ formatCompactNumber({ value: 6500, locale: "en-NG", compactDisplay: "long" });  
 ```
 
 ## 🔹 formatUnit
+
+format a number using the Intl unit style
 
 ```bash
 formatUnit({
