@@ -99,7 +99,6 @@ export const formatCurrency = <L extends GetLocale>(
         style: "currency",
         currency: "USD",
         currencyDisplay: props.currencyDisplay ?? "symbol",
-        useGrouping: true,
       },
       locale: "en-US",
     });
