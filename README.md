@@ -6,9 +6,6 @@ A lightweight utility library for formatting numbers, currencies, percentages, d
 
 ## 🚀 Installation
 
-[![npm version](https://img.shields.io/npm/v/num-format-utils.svg)](https://www.npmjs.com/package/num-format-utils)
-[![npm downloads](https://img.shields.io/npm/dt/num-format-utils.svg)](https://www.npmjs.com/package/num-format-utils)
-
 [View all versions on npm](https://www.npmjs.com/package/num-format-utils?activeTab=versions)
 
 ````bash
