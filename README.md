@@ -2,7 +2,31 @@
 
 A lightweight utility library for formatting numbers, currencies, percentages, decimals and more — with full TypeScript support and locale-aware formatting via the `Intl` API.
 
-> ✅ Ideal for dashboards, finance apps, and data display
+> ✅ Ideal for dashboards, finance apps, data display and more.
+
+<a href="https://buymeacoffee.com/chimobijusi" target="_blank">
+  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me a Coffee" style="height: 40px;"/>
+</a>
+
+<div align="center">
+  <a href="https://www.npmjs.com/package/num-format-utils" target="blank"><img
+    align="center"
+    alt="npm"
+    src="https://img.shields.io/npm/v/num-format-utils.svg?labelColor=49516F&color=8994BC&style=for-the-badge"
+    height="30" /></a>
+  <a href="https://npmjs.org/package/num-format-utils" target="blank"><img
+      align="center"
+      src="https://img.shields.io/npm/dm/num-format-utils?labelColor=49516F&color=8994BC&style=for-the-badge"
+      alt="monthly downloads"
+      height="30"
+    /></a>
+  <a href="https://npmjs.org/package/num-format-utils" target="blank"><img
+      align="center"
+      src="https://img.shields.io/npm/types/num-format-utils?label=types%20included&labelColor=49516F&color=8994BC&style=for-the-badge"
+      alt="types included"
+      height="30"
+    /></a>
+</div>
 
 ## 🚀 Installation
 
@@ -13,13 +37,6 @@ npm install num-format-utils
 # or
 yarn add num-format-utils
 
-## 🚀 Installation
-
-```bash
-npm install num-format-utils
-# or
-yarn add num-format-utils
-````
 
 ## ✨ Features
 
@@ -47,6 +64,9 @@ import {
   formatPercentage,
   formatCompactNumber,
   formatUnit,
+  formatDateTime,
+  formatRelativeTime,
+  formatList,
 } from 'num-format-utils';
 ```
 
@@ -242,6 +262,121 @@ formatUnit({
  formatUnit({ value: 120, unit: "kilobyte", unitDisplay: "short" }); // "120 kB"
 ```
 
+## 🔹 formatDateTime
+
+Formats a date or timestamp into a localizedd string using Intl.DateTimeFormat.
+
+ - Accepts: Date, string, number, or timestampp.
+ - Supports friendly presets: "short", "long", "dateOnly", "timeOnly", "full".
+ - Defaults to "en-US" and "full" if no options are provided.
+ - Returns an empty string and logs a warning for invalid inputt.
+
+```bash
+formatDateTime({
+  date: Date | string | number,
+  locale?: string, // e.g. "en-US"
+  options?: DateTimePreset | Intl.DateTimeFormatOptions
+}): string
+```
+
+## Example:
+
+```bash
+ formatDateTime({ date: "2025-07-15T08:00:00Z" })
+ // → "July 15, 2025 at 8:00:00 AM"
+
+ formatDateTime({ date: Date.now(), options: "short" })
+ // → "07/15/25, 10:04"
+
+ formatDateTime({
+  date: (Date.UTC(2012, 11, 20, 3, 0, 0, 200)),
+  locale: "en-AU",
+  options: {
+    timeZone: "Australia/Sydney",
+    timeZoneName: "short"
+  }
+ }));
+ // 20/12/2012, AEDT
+
+ formatDateTime({ date: "abc" })
+ // → "" (and logs a warning)
+```
+
+## 🔹 formatRelativeTime
+
+Formats time relative to the current time (e.g. "in 3 days", "2 hours ago").
+
+- Supports all Intl.RelativeTimeFormatUnit values ("second", "day", "month", etc).
+- Optional plain flag to strip "in"/"ago" from output.
+- Defaults: "en-US", "day", "long" style, and "always" numeric format.
+- Logs a warning for non-numeric values.
+
+```bash
+formatRelativeTime({
+  value: number,
+  unit?: Intl.RelativeTimeFormatUnit,    // default: "day"
+  locale?: string,                       // default: "en-US"
+  plain?: boolean,                       // default: false
+  numeric?: "auto" | "always",           // default: "always"
+  style?: "short" | "long" | "narrow"    // default: "long"
+}): string
+```
+
+## Example:
+
+```bash
+ formatRelativeTime({ value: -1 })
+  // → "1 day ago"
+
+formatRelativeTime({ value: 3, unit: "minute" })
+  // → "in 3 minutes"
+
+formatRelativeTime({ value: -5, plain: true })
+  // → "5 days" (strips "ago")
+
+formatRelativeTime({ value: "abc" })
+  // → "" (with warning)
+
+```
+
+## 🔹 formatList
+
+Formats an array of strings into a localized, human-readable list using Intl.ListFormat.
+
+  - Accepts a string array (items).
+  - Optional style ("long", "short", "narrow").
+  - Optional type ("conjunction" = and, "disjunction" = or).
+  - Logs a warning if array is empty or contains no valid strings.
+
+
+```bash
+formatList({
+  items: string[],
+  locale?: string,                        // default: "en-US"
+  style?: "long" | "short" | "narrow",   // default: "long"
+  type?: "conjunction" | "disjunction"   // default: "conjunction"
+}): string
+```
+
+## Example:
+
+```bash
+formatList({ items: ["Apples", "Bananas", "Cherriess"] })
+// → "Apples, Bananas, and Cherries"
+
+formatList({
+  items: ["Design", "Code", "Deploy"],
+  locale: "en-GB",
+  style: "short",
+  type: "disjunction"
+})
+// → "Design, Code or Deploy"
+
+formatList({ items: [] })
+// → "" (with warning)
+
+```
+
 ## ✅ TypeScript Support
 
 All utilities are strongly typed
@@ -284,12 +419,7 @@ This project was developed and maintained by:
 
 Special thanks to all contributors and community members who have helped improve this library.
 
-<a href="https://buymeacoffee.com/chimobijusi" target="_blank">
-  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me a Coffee" style="height: 60px;"/>
-</a>
-
----
-
 ## 📝 License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+````

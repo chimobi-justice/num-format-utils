@@ -43,3 +43,20 @@ export const ensureNumberOrString = (
     return;
   }
 };
+
+/**
+ * Checks if the provided value is a valid number only.
+ * If the value is not a number, logs a warning with the context provided.
+ *
+ * @param {number} value - The value to validate, can be a number.
+ * @param {string} callerFunction - The name of the function or context where this check is performed.
+ */
+export const ensureNumber = (value: number, callerFunction: string) => {
+  if (typeof value !== "number" || isNaN(value)) {
+    console.warn(
+      `["${callerFunction}"] ⚠️ Invalid numeric value: "${value}". Expected a number.`
+    );
+
+    return;
+  }
+};
