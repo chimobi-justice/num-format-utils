@@ -1,5 +1,9 @@
-import type { FormatPercentageProps } from "../types";
 import { normalizeNumber } from "./helpers";
+
+interface FormatPercentageProps {
+  value: number | string;
+  fractionDigits?: number;
+}
 
 /**
  * Formats a numeric value as a percentage string.

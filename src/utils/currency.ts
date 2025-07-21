@@ -5,7 +5,7 @@ import {
   normalizeNumber,
 } from "../utils/helpers";
 
-export const localeCurrencyPairs = {
+const localeCurrencyPairs = {
   "en-US": ["USD"],
   "en-GB": ["GBP"],
   "en-NG": ["NGN"],
@@ -17,7 +17,7 @@ export const localeCurrencyPairs = {
   "en-AU": ["AUD"],
   "pt-BR": ["BRL"],
   "es-MX": ["MXN"],
-  "de-DE": ["EUR", "CHF"], // Example if multiple currencies per locale
+  "de-DE": ["EUR"],
   "it-IT": ["EUR"],
   "ru-RU": ["RUB"],
   "ko-KR": ["KRW"],
@@ -26,13 +26,37 @@ export const localeCurrencyPairs = {
   "en-ZA": ["ZAR"],
   "es-ES": ["EUR"],
   "nl-NL": ["EUR"],
+  "pl-PL": ["PLN"],
+  "tr-TR": ["TRY"],
+  "th-TH": ["THB"],
+  "id-ID": ["IDR"],
+  "ms-MY": ["MYR"],
+  "en-SG": ["SGD"],
+  "zh-HK": ["HKD"],
+  "en-NZ": ["NZD"],
+  "da-DK": ["DKK"],
+  "nb-NO": ["NOK"],
+  "cs-CZ": ["CZK"],
+  "hu-HU": ["HUF"],
+  "he-IL": ["ILS"],
+  "ur-PK": ["PKR"],
+  "zh-TW": ["TWD"],
+  "es-CO": ["COP"],
+  "es-AR": ["ARS"],
+  "es-CL": ["CLP"],
+  "vi-VN": ["VND"],
+  "bn-BD": ["BDT"],
+  "en-KE": ["KES"],
+  "en-GH": ["GHS"],
+  "en-UG": ["UGX"],
+  "fr-MA": ["MAD"],
 } as const;
 
 type LocaleCurrencyMap = typeof localeCurrencyPairs;
 
 type GetLocale = keyof LocaleCurrencyMap;
 
-export type FormatCurrencyStrictProps<L extends keyof LocaleCurrencyMap> = {
+type FormatCurrencyStrictProps<L extends keyof LocaleCurrencyMap> = {
   value: number | string;
   locale: L;
   currency: LocaleCurrencyMap[L][number];
@@ -47,7 +71,7 @@ export type FormatCurrencyProps<L extends GetLocale = "en-US"> =
       currency: LocaleCurrencyMap[L][number];
     };
 
-export interface CurrencyDisplayTypes {
+interface CurrencyDisplayTypes {
   currencyDisplay?: "code" | "name" | "symbol" | "narrowSymbol";
 }
 
