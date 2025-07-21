@@ -1,8 +1,4 @@
-import type {
-  FormatCompactProps,
-  FormatNumberProps,
-  SupportedLocale,
-} from "../types";
+import type { FormatNumberProps, SupportedLocale } from "../types";
 import { ensureNumberOrString, formatWithIntl } from "./helpers";
 
 interface BaseProps extends FormatNumberProps<SupportedLocale> {}
@@ -10,7 +6,7 @@ interface BaseProps extends FormatNumberProps<SupportedLocale> {}
 /**
  * Props for compact notation (e.g. 1K, 2.3M)
  */
-export type CompactProps = BaseProps & {
+type CompactProps = BaseProps & {
   notation?: "compact";
 
   /**
@@ -27,9 +23,11 @@ export type CompactProps = BaseProps & {
  * Props for standard notation (e.g. 1,000)
  * Disallow compactDisplay here
  */
-export type StandardProps = BaseProps & {
+type StandardProps = BaseProps & {
   notation?: "standard";
 };
+
+type FormatCompactProps = CompactProps | StandardProps;
 
 /**
  * Formats a number using the `Intl.NumberFormat` API with either "compact" or "standard" notation.

@@ -10,6 +10,7 @@
     "typescript",
     "intl"
   ],
+  "homepage": "https://chimobi-justice.github.io/num-format-utils",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/chimobi-justice/num-format-utils.git"

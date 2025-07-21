@@ -1,92 +1,93 @@
-import type { CompactProps, StandardProps } from "./utils/formatCompactNumber";
-
 export type SupportedCurrency =
-  | "USD" // US Dollar
-  | "NGN" // Nigerian Naira
-  | "EUR" // Euro
-  | "GBP" // British Pound
-  | "JPY" // Japanese Yen
-  | "CAD" // Canadian Dollar
-  | "CNY" // Chinese Yuan
-  | "INR" // Indian Rupee
-  | "AUD" // Australian Dollar
-  | "BRL" // Brazilian Real
-  | "ZAR" // South African Rand
-  | "CHF" // Swiss Franc
-  | "SEK" // Swedish Krona
-  | "MXN" // Mexican Peso
-  | "KRW" // South Korean Won
-  | "RUB" // Russian Ruble
-  | "AED" // UAE Dirham
-  | "SAR" // Saudi Riyal
-  | "EGP"; // Egyptian Pound
+  | "USD"
+  | "NGN"
+  | "EUR"
+  | "GBP"
+  | "JPY"
+  | "CAD"
+  | "CNY"
+  | "INR"
+  | "AUD"
+  | "BRL"
+  | "ZAR"
+  | "CHF"
+  | "SEK"
+  | "MXN"
+  | "KRW"
+  | "RUB"
+  | "AED"
+  | "SAR"
+  | "EGP"
+  | "PLN"
+  | "TRY"
+  | "THB"
+  | "IDR"
+  | "MYR"
+  | "SGD"
+  | "HKD"
+  | "NZD"
+  | "DKK"
+  | "NOK"
+  | "CZK"
+  | "HUF"
+  | "ILS"
+  | "PKR"
+  | "TWD"
+  | "COP"
+  | "ARS"
+  | "CLP"
+  | "VND"
+  | "BDT"
+  | "KES"
+  | "GHS"
+  | "UGX"
+  | "MAD";
 
 export type SupportedLocale =
-  | "en-US" // United States
-  | "en-GB" // United Kingdom
-  | "en-NG" // Nigeria
-  | "fr-FR" // France
-  | "ja-JP" // Japan
-  | "en-CA" // Canada
-  | "zh-CN" // China
-  | "hi-IN" // India
-  | "en-AU" // Australia
-  | "pt-BR" // Brazil
-  | "es-MX" // Mexico
-  | "de-DE" // Germany
-  | "it-IT" // Italy
-  | "ru-RU" // Russia
-  | "ko-KR" // South Korea
-  | "ar-AE" // United Arab Emirates
-  | "ar-SA" // Saudi Arabia
-  | "en-ZA" // South Africa
-  | "es-ES" // Spain
-  | "nl-NL"; // Netherlands
-
-export type SupportedUnit =
-  | "acre"
-  | "bit"
-  | "byte"
-  | "celsius"
-  | "centimeter"
-  | "day"
-  | "degree"
-  | "fahrenheit"
-  | "fluid-ounce"
-  | "foot"
-  | "gallon"
-  | "gigabit"
-  | "gigabyte"
-  | "gram"
-  | "hectare"
-  | "hour"
-  | "inch"
-  | "kilobit"
-  | "kilobyte"
-  | "kilogram"
-  | "kilometer"
-  | "liter"
-  | "megabit"
-  | "megabyte"
-  | "meter"
-  | "mile"
-  | "mile-scandinavian"
-  | "milliliter"
-  | "millimeter"
-  | "millisecond"
-  | "minute"
-  | "month"
-  | "ounce"
-  | "percent"
-  | "petabyte"
-  | "pound"
-  | "second"
-  | "stone"
-  | "terabit"
-  | "terabyte"
-  | "week"
-  | "yard"
-  | "year";
+  | "en-US"
+  | "en-GB"
+  | "en-NG"
+  | "fr-FR"
+  | "ja-JP"
+  | "en-CA"
+  | "zh-CN"
+  | "hi-IN"
+  | "en-AU"
+  | "pt-BR"
+  | "es-MX"
+  | "de-DE"
+  | "it-IT"
+  | "ru-RU"
+  | "ko-KR"
+  | "ar-AE"
+  | "ar-SA"
+  | "en-ZA"
+  | "es-ES"
+  | "nl-NL"
+  | "pl-PL"
+  | "tr-TR"
+  | "th-TH"
+  | "id-ID"
+  | "ms-MY"
+  | "en-SG"
+  | "zh-HK"
+  | "en-NZ"
+  | "da-DK"
+  | "nb-NO"
+  | "cs-CZ"
+  | "hu-HU"
+  | "he-IL"
+  | "ur-PK"
+  | "zh-TW"
+  | "es-CO"
+  | "es-AR"
+  | "es-CL"
+  | "vi-VN"
+  | "bn-BD"
+  | "en-KE"
+  | "en-GH"
+  | "en-UG"
+  | "fr-MA";
 
 export type UnitDisplay = "short" | "long" | "narrow";
 
@@ -94,16 +95,3 @@ export interface FormatNumberProps<L extends SupportedLocale> {
   value: number | string;
   locale?: L;
 }
-
-export interface FormatPercentageProps {
-  value: number | string;
-  fractionDigits?: number;
-}
-
-export interface FormatDecimalProps {
-  value: number | string;
-  decimals?: number;
-  locale?: SupportedLocale;
-}
-
-export type FormatCompactProps = CompactProps | StandardProps;

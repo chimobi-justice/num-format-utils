@@ -1,10 +1,10 @@
 import type { SupportedLocale } from "../types";
 
-export type FormatListStyleProps = "short" | "long" | "narrow";
+type FormatListStyleProps = "short" | "long" | "narrow";
 
-export type FormatListTypeProps = "conjunction" | "disjunction";
+type FormatListTypeProps = "conjunction" | "disjunction";
 
-export interface FormatListProps {
+interface FormatListProps {
   items: string[];
   locale?: SupportedLocale;
   style?: FormatListStyleProps;

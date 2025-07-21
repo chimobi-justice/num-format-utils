@@ -1,9 +1,11 @@
-import type {
-  FormatDecimalProps,
-  FormatNumberProps,
-  SupportedLocale,
-} from "../types";
+import type { FormatNumberProps, SupportedLocale } from "../types";
 import { formatWithIntl } from "./helpers";
+
+interface FormatDecimalProps {
+  value: number | string;
+  decimals?: number;
+  locale?: SupportedLocale;
+}
 
 /**
  * Formats a numeric value using locale-specific digit grouping and decimal separators.

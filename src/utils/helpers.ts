@@ -1,7 +1,6 @@
 import type { FormatNumberProps, SupportedLocale } from "../types";
 
-export interface FormatWithIntlProps
-  extends FormatNumberProps<SupportedLocale> {
+interface FormatWithIntlProps extends FormatNumberProps<SupportedLocale> {
   options?: Intl.NumberFormatOptions;
 }
 

@@ -1,10 +1,52 @@
-import type {
-  FormatNumberProps,
-  SupportedLocale,
-  SupportedUnit,
-  UnitDisplay,
-} from "../types";
+import type { FormatNumberProps, SupportedLocale } from "../types";
 import { formatWithIntl, normalizeNumber } from "./helpers";
+
+type SupportedUnit =
+  | "acre"
+  | "bit"
+  | "byte"
+  | "celsius"
+  | "centimeter"
+  | "day"
+  | "degree"
+  | "fahrenheit"
+  | "fluid-ounce"
+  | "foot"
+  | "gallon"
+  | "gigabit"
+  | "gigabyte"
+  | "gram"
+  | "hectare"
+  | "hour"
+  | "inch"
+  | "kilobit"
+  | "kilobyte"
+  | "kilogram"
+  | "kilometer"
+  | "liter"
+  | "megabit"
+  | "megabyte"
+  | "meter"
+  | "mile"
+  | "mile-scandinavian"
+  | "milliliter"
+  | "millimeter"
+  | "millisecond"
+  | "minute"
+  | "month"
+  | "ounce"
+  | "percent"
+  | "petabyte"
+  | "pound"
+  | "second"
+  | "stone"
+  | "terabit"
+  | "terabyte"
+  | "week"
+  | "yard"
+  | "year";
+
+type UnitDisplay = "short" | "long" | "narrow";
 
 interface FormatUnitProps extends FormatNumberProps<SupportedLocale> {
   /**
