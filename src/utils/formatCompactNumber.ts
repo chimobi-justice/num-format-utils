@@ -27,7 +27,7 @@ type StandardProps = BaseProps & {
   notation?: "standard";
 };
 
-type FormatCompactProps = CompactProps | StandardProps;
+export type FormatCompactProps = CompactProps | StandardProps;
 
 /**
  * Formats a number using the `Intl.NumberFormat` API with either "compact" or "standard" notation.

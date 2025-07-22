@@ -56,7 +56,7 @@ type LocaleCurrencyMap = typeof localeCurrencyPairs;
 
 type GetLocale = keyof LocaleCurrencyMap;
 
-type FormatCurrencyStrictProps<L extends keyof LocaleCurrencyMap> = {
+export type FormatCurrencyStrictProps<L extends keyof LocaleCurrencyMap> = {
   value: number | string;
   locale: L;
   currency: LocaleCurrencyMap[L][number];
@@ -71,7 +71,7 @@ export type FormatCurrencyProps<L extends GetLocale = "en-US"> =
       currency: LocaleCurrencyMap[L][number];
     };
 
-interface CurrencyDisplayTypes {
+export interface CurrencyDisplayTypes {
   currencyDisplay?: "code" | "name" | "symbol" | "narrowSymbol";
 }
 

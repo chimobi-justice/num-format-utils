@@ -1,7 +1,7 @@
 import type { FormatNumberProps, SupportedLocale } from "../types";
 import { formatWithIntl, normalizeNumber } from "./helpers";
 
-type SupportedUnit =
+export type SupportedUnit =
   | "acre"
   | "bit"
   | "byte"
@@ -46,9 +46,9 @@ type SupportedUnit =
   | "yard"
   | "year";
 
-type UnitDisplay = "short" | "long" | "narrow";
+export type UnitDisplay = "short" | "long" | "narrow";
 
-interface FormatUnitProps extends FormatNumberProps<SupportedLocale> {
+export interface FormatUnitProps extends FormatNumberProps<SupportedLocale> {
   /**
    * Unit to format with (must be a valid unit recognized by Intl API)
    * e.g. "kilogram", "liter", "celsius", "meter", "inch", etc.
