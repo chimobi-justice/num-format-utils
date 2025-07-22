@@ -2,7 +2,7 @@
 
 A lightweight utility library for formatting numbers, currencies, percentages, decimals, and more — with full TypeScript support and locale-aware formatting via the `Intl` API.
 
-> ✅ Perfect for dashboards, finance apps, and data display and more.
+> ✅ Perfect for dashboards, finance apps, data display and more.
 
 [![npm version](https://img.shields.io/npm/v/num-format-utils.svg)](https://www.npmjs.com/package/num-format-utils) [![npm downloads](https://img.shields.io/npm/dm/num-format-utils.svg)](https://npmjs.org/package/num-format-utils)
 

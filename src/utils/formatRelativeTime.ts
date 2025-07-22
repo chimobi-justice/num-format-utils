@@ -1,7 +1,7 @@
 import type { SupportedLocale } from "../types";
 import { ensureNumber } from "../utils/helpers";
 
-interface FormatRelativeTimeIntlProps {
+export interface FormatRelativeTimeIntlProps {
   value: number;
   unit?: Intl.RelativeTimeFormatUnit;
   locale?: SupportedLocale;

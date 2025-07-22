@@ -1,8 +1,13 @@
 import type { SupportedLocale } from "../types";
 
-type DateTimePreset = "short" | "long" | "dateOnly" | "timeOnly" | "full";
+export type DateTimePreset =
+  | "short"
+  | "long"
+  | "dateOnly"
+  | "timeOnly"
+  | "full";
 
-interface FormatDateTimeProps {
+export interface FormatDateTimeProps {
   date: Date | string | number | null | undefined;
   locale?: SupportedLocale;
   options?: Intl.DateTimeFormatOptions | DateTimePreset;
